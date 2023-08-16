@@ -4,7 +4,7 @@ provider "aws" {
 
 # S3 bucket for backend
 resource "aws_s3_bucket" "tfstate" {
-  bucket = "${var.ACCOUNT_ID}-apnortheast2-tfstate"
+  bucket = "${var.ACCOUNT_ALIAS}-apnortheast2-tfstate"
 
   versioning {
     enabled = true # Prevent from deleting tfstate file
@@ -22,7 +22,4 @@ resource "aws_dynamodb_table" "terraform_state_lock" {
   }
 }
 
-# 계정 별칭 셋팅
-resource "aws_iam_account_alias" "hoit" {
-  account_alias = "hoit"
-}
+

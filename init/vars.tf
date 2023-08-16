@@ -3,6 +3,6 @@ variable "AWS_REGION" {
   default = "ap-northeast-2"
 }
 
-variable "ACCOUNT_ID" {
-  default = "ho-it-me" # Please use the account alias for id
+variable "ACCOUNT_ALIAS" {
+  default = "hoit" # Please use the account alias for id
 }

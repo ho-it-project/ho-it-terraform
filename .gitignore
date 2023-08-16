@@ -14,7 +14,8 @@ terraform/**/*.backup
 .terraform
 *.tfstate
 *.tfplan
-
+*.tfvars
+*.tfstate.backup
 /**/.kitchen
 
 ansible/applessbackup
