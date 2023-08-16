@@ -22,3 +22,7 @@ resource "aws_dynamodb_table" "terraform_state_lock" {
   }
 }
 
+# 계정 별칭 셋팅
+resource "aws_iam_account_alias" "hoit" {
+  account_alias = "hoit"
+}
