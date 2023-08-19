@@ -6,6 +6,9 @@ variable "AWS_REGION" {
 variable "ACCOUNT_ALIAS" {
   default = "hoit" # AWS Account ID Alias
 }
+variable "shard_id" {
+  default = ""
+}
 
 # variable "ACCOUNT_ID" {
 #   description = "AWS Account Number ID 12 digit"

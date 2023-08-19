@@ -36,8 +36,8 @@ resource "aws_security_group" "external_lb" {
 }
 
 
-################## Security Group for ecr
-resource "aws_security_group" "ecr" {
+################## Security Group for ec2
+resource "aws_security_group" "ec2" {
   name        = "${var.service_name}-${var.vpc_name}"
   description = "${var.service_name} Instance Security Group"
   vpc_id      = var.target_vpc
@@ -48,7 +48,7 @@ resource "aws_security_group" "ecr" {
     to_port   = var.service_port
     protocol  = "tcp"
 
-    # Allow external LB Only for ecr instance
+    # Allow external LB Only for ec2 instance
     security_groups = [
       aws_security_group.external_lb.id,
     ]

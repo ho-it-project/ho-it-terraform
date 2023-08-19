@@ -15,6 +15,11 @@ output "availability_zones" {
   value       = var.availability_zones
 }
 
+# Shard
+output "shard_id" {
+  description = "The shard ID which will be used to distinguish the env of resources"
+  value       = var.shard_id
+}
 
 # VPC
 output "vpc_name" {

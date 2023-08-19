@@ -1,10 +1,10 @@
 # Atlantis user
 
 # Account IDs
-# Add all account ID to here 
-variable "account_id" {
-  type = map()
-}
+# # Add all account ID to here 
+# variable "account_id" {
+#   type = map()
+# }
 
 variable "AWS_REGION" {
   default = "ap-northeast-2"
@@ -37,9 +37,9 @@ variable "remote_state" {
     # VPC
     vpc = {
       dev = {
-        region = "ap-northeast-2"
         bucket = "hoit-apnortheast2-tfstate"
         key    = "hoit/terraform/vpc/hoit-dev/terraform.tfstate"
+        region = "ap-northeast-2"
       }
     }
 
