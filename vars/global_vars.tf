@@ -1,0 +1,65 @@
+# Atlantis user
+
+# Account IDs
+# Add all account ID to here 
+variable "account_id" {
+  type = map()
+}
+
+variable "AWS_REGION" {
+  default = "ap-northeast-2"
+}
+
+variable "EC2_TYPE" {
+  type = map(string)
+  default = {
+    "t2micro" = "t2.micro"
+    "t3micro" = "t3.micro"
+    "t2small" = "t2.small"
+  }
+}
+
+
+variable "AWS_AMI_LIST" {
+  type = map(string)
+  default = {
+    "ubuntu_20_04_x86" = "ami-04341a215040f91bb"
+    "ubuntu_20_04_arm" = "ami-0ac62099928d25fec"
+    "ubuntu_22_04_x86" = "ami-0c9c942bd7bf113a2"
+    "ubuntu_22_04_arm" = "ami-00fdfe418c69b624a"
+  }
+}
+
+# Remote State that will be used when creating other resources
+# You can add any resource here, if you want to refer from others
+variable "remote_state" {
+  default = {
+    # VPC
+    vpc = {
+      dev = {
+        region = "ap-northeast-2"
+        bucket = "hoit-apnortheast2-tfstate"
+        key    = "hoit/terraform/vpc/hoit-dev/terraform.tfstate"
+      }
+    }
+
+    # WAF ACL
+    waf_web_acl_global = {
+      prod = {
+        region = ""
+        bucket = ""
+        key    = ""
+      }
+    }
+
+    # AWS IAM
+    iam = {
+
+      id = {
+        region = "ap-northeast-2"
+        bucket = "hoit-apnortheast2-tfstate"
+        key    = "hoit/terraform/iam/hoit-id/terraform.tfstate"
+      }
+    }
+  }
+}

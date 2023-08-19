@@ -1,0 +1,1 @@
+../../../vars/route53_vars.tf

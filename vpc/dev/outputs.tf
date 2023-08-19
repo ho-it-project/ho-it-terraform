@@ -106,8 +106,32 @@ output "billing_tag" {
   value       = var.billing_tag
 }
 
-
-
+# resource "null_resource" "output_to_file" {
+#   provisioner "local-exec" {
+#     command = <<-EOT
+#       echo vpc_output > output.txt
+#       echo "aws_region = ${var.AWS_REGION}" >> output.txt
+#       echo "region_namespace = ${replace(var.AWS_REGION, "-", "")}" >> output.txt
+#       echo "availability_zones = ${join(",", var.availability_zones)}" >> output.txt
+#       echo "vpc_name = ${var.vpc_name}" >> output.txt
+#       echo "vpc_id = ${aws_vpc.default.id}" >> output.txt
+#       echo "cidr_block = ${aws_vpc.default.cidr_block}" >> output.txt
+#       echo "cidr_numeral = ${var.cidr_numeral}" >> output.txt
+#       echo "private_subnets = ${join(",", aws_subnet.private.*.id)}" >> output.txt
+#       echo "public_subnets = ${join(",", aws_subnet.public.*.id)}" >> output.txt
+#       echo "db_private_subnets = ${join(",", aws_subnet.private_db.*.id)}" >> output.txt
+#       echo "route53_internal_zone_id = ${aws_route53_zone.internal.zone_id}" >> output.txt
+#       echo "route53_internal_domain = ${aws_route53_zone.internal.name}" >> output.txt
+#       echo "route53_internal_domain_name_servers = ${aws_route53_zone.internal.name_servers}" >> output.txt
+#       echo "aws_security_group_bastion_id = ${aws_security_group.bastion.id}" >> output.txt
+#       echo "aws_security_group_bastion_aware_id = ${aws_security_group.bastion_aware.id}" >> output.txt
+#       echo "aws_security_group_default_id = ${aws_security_group.default.id}" >> output.txt
+#       echo "aws_security_group_home_id = ${aws_security_group.home.id}" >> output.txt
+#       echo "env_suffix = ${var.env_suffix}" >> output.txt
+#       echo "billing_tag = ${var.billing_tag}" >> output.txt
+#     EOT
+#   }
+# }
 resource "null_resource" "output_to_file" {
   provisioner "local-exec" {
     command = <<-EOT
