@@ -21,11 +21,18 @@ resource "aws_security_group" "external_lb" {
   tags = var.sg_variables.external_lb.tags[var.shard_id]
 }
 
+
 resource "aws_security_group" "ec2" {
   name        = "${var.service_name}-${var.vpc_name}"
   description = "${var.service_name} Instance Security Group"
   vpc_id      = var.target_vpc
 
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   ingress {
     from_port = var.service_port
     to_port   = var.service_port
@@ -129,3 +136,4 @@ resource "aws_route53_record" "regional_external_dns" {
   ttl     = 300
   records = [aws_lb.external.dns_name]
 }
+

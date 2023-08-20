@@ -3,11 +3,12 @@
 resource "aws_launch_configuration" "launch_configuration" {
   image_id      = var.instance_ami
   instance_type = var.instance_size
+
   security_groups = [
     aws_security_group.ec2.id
   ]
 
-  associate_public_ip_address = false
+  associate_public_ip_address = true
 
   user_data = data.template_file.init.rendered
 
@@ -27,6 +28,7 @@ resource "aws_launch_configuration" "launch_configuration" {
 resource "aws_autoscaling_group" "autoscaling_group" {
   # vpc_zone_identifier = var.private_subnets
   vpc_zone_identifier       = var.public_subnets
+  
   name                      = "${var.service_name}-master-${var.vpc_name}"
   max_size                  = var.instance_count_max
   min_size                  = var.instance_count_min
