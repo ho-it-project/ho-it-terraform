@@ -8,4 +8,6 @@
    - api
    - er
    - ems
-6. ecr
+6. key-pair
+7. jenkins
+8. ecr

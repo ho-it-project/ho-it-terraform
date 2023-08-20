@@ -31,3 +31,10 @@ ansible/updater
 .idea
 
 output.txt
+
+
+# keypair
+hoit_master
+hoit_master.pub
+
+*.pem

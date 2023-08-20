@@ -1,10 +1,13 @@
 # Atlantis user
 
 # Account IDs
-# # Add all account ID to here 
-# variable "account_id" {
-#   type = map()
-# }
+# Add all account ID to here 
+variable "account_id" {
+  type = map(string)
+  default = {
+    dev = ""
+  }
+}
 
 variable "AWS_REGION" {
   default = "ap-northeast-2"
@@ -62,4 +65,22 @@ variable "remote_state" {
       }
     }
   }
+}
+
+
+
+variable "PATH_TO_PRIVATE_KEY" {
+  default = "./hoit_master"
+}
+
+variable "PATH_TO_PUBLIC_KEY" {
+  default = "./hoit_master.pub"
+}
+
+variable "SSH_KEY_NAME" {
+  default = "hoit_master"
+}
+
+variable "INSTANCE_USERNAME" {
+  default = "ubuntu"
 }

@@ -98,7 +98,7 @@ variable "ssh_key_name" {
 
 variable "instance_size" {
   description = "instance type"
-  default     = "t3.medium"
+  default     = "t3.small"
 }
 
 variable "instance_ami" {
@@ -117,9 +117,9 @@ variable "tag_project" {
   description = ""
 }
 
-variable "deployment_common_arn" {
-  description = "The ARN of KMS for deployment_common."
-}
+# variable "deployment_common_arn" {
+#   description = "The ARN of KMS for deployment_common."
+# }
 
 variable "github_hook_sg" {
   description = ""
