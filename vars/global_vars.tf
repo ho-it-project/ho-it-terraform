@@ -73,6 +73,26 @@ variable "remote_state" {
         key    = "hoit/terraform/kms/hoit-id/terraform.tfstate"
       }
     }
+
+
+    # ECR
+    ecr = {
+      api_server = {
+        region = "ap-northeast-2"
+        bucket = "hoit-apnortheast2-tfstate"
+        key    = "hoit/terraform/ecr/hoit/api-server/terraform.tfstate"
+      },
+      er_front = {
+        region = "ap-northeast-2"
+        bucket = "hoit-apnortheast2-tfstate"
+        key    = "hoit/terraform/ecr/hoit/er_front/terraform.tfstate"
+      },
+      ems_front = {
+        region = "ap-northeast-2"
+        bucket = "hoit-apnortheast2-tfstate"
+        key    = "hoit/terraform/ecr/hoit/ems_front/terraform.tfstate"
+      }
+    }
   }
 }
 
