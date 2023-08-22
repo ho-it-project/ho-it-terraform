@@ -64,6 +64,15 @@ variable "remote_state" {
         key    = "hoit/terraform/iam/hoit-id/terraform.tfstate"
       }
     }
+
+
+    kms = {
+      dev = {
+        region = "ap-northeast-2"
+        bucket = "hoit-apnortheast2-tfstate"
+        key    = "hoit/terraform/kms/hoit-id/terraform.tfstate"
+      }
+    }
   }
 }
 

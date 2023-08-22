@@ -27,7 +27,7 @@ module "jenkins" {
   efs_provisioned_throughput_in_mibps = 0
 
   #KMS Key for deployment
-  #   deployment_common_arn = data.terraform_remote_state.kms.outputs.aws_kms_key_id_apne2_deployment_common_arn
+  deployment_common_arn = data.terraform_remote_state.kms.outputs.aws_kms_key_id_apne2_deployment_common_arn
 
   # Instance Count Variables
   instance_count_max     = 1
@@ -52,7 +52,7 @@ module "jenkins" {
 
   # CIDR for external LB
   # Control allowed IP for external LB 
-  ext_lb_ingress_cidrs = [
-    "0.0.0.0/0"
-  ]
+  # 내부망과 깃허브 훅만 허용
+  # 개발단계이기에 모든 IP 허용
+  ext_lb_ingress_cidrs = ["0.0.0.0/0"]
 }

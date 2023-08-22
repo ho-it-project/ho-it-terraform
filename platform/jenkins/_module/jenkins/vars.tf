@@ -95,6 +95,10 @@ variable "ssh_key_name" {
   description = "The key name to SSH into instances with"
   default     = "preprod-master"
 }
+variable "deployment_common_arn" {
+  description = "The ARN of KMS for deployment_common."
+}
+
 
 variable "instance_size" {
   description = "instance type"
@@ -117,15 +121,28 @@ variable "tag_project" {
   description = ""
 }
 
-# variable "deployment_common_arn" {
-#   description = "The ARN of KMS for deployment_common."
-# }
-
 variable "github_hook_sg" {
   description = ""
   default     = ""
 }
+variable "github_hook_sg_ipv4_cidrs" {
+  description = ""
+  default = [
+    "192.30.252.0/22",
+    "185.199.108.0/22",
+    "140.82.112.0/20",
+    "143.55.64.0/20",
 
+  ]
+}
+
+variable "github_hook_sg_ipv6_cidrs" {
+  description = ""
+  default = [
+    "2a0a:a440::/29",
+    "2606:50c0::/32"
+  ]
+}
 variable "efs_throughput_mode" {
   default = "bursting"
 }

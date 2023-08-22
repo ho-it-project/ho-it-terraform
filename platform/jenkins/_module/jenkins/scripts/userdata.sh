@@ -17,7 +17,12 @@ function waitForPasswordFile() {
 }
 
 sudo apt update
-sudo apt install -y openjdk-11-jdk jq git awscli nmap nfs-common net-tools
+sudo apt install -y openjdk-11-jdk jq git awscli nmap nfs-common net-tools docker.io
+
+sudo usermod -aG docker jenkins
+sudo systemctl enable docker
+sudo systemctl start docker
+sudo systemctl restart docker
 
 export JENKINS_HOME=/var/lib/jenkins
 sudo mkdir -p $JENKINS_HOME
@@ -31,6 +36,7 @@ sudo dpkg -i jenkins_2.401.3_all.deb
 sudo sed -i 's/Djava.awt.headless=true/Djava.awt.headless=true -Xmx2G -Xms2G -Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia\/Seoul/g' /etc/default/jenkins
 
 sudo systemctl start jenkins
+
 
 rm jenkins_2.401.3_all.deb
 

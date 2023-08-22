@@ -126,37 +126,37 @@ EOF
 }
 
 
-# resource "aws_iam_role_policy" "kms" {
-#   name   = "${var.service_name}-kms-decryption"
-#   role   = aws_iam_role.ec2.id
-#   policy = <<EOF
-# {
-#   "Statement": [
-#     {
-#       "Sid": "AllowToDecryptKMSKey",
-#       "Action": [
-#         "kms:Decrypt"
-#       ],
-#       "Resource": [
-#         "${var.deployment_common_arn}"
-#       ],
-#       "Effect": "Allow"
-#     },
-#     {
-#       "Sid": "AllowSsmParameterAccess",
-#       "Action": [
-#         "ssm:GetParameter",
-#         "ssm:GetParameters"
-#       ],
-#       "Effect": "Allow",
-#       "Resource": [
-#         "arn:aws:ssm:ap-northeast-2:${var.account_id}:parameter/*"
-#       ]
-#     }
-#   ]
-# }
-# EOF
-# }
+resource "aws_iam_role_policy" "kms" {
+  name   = "${var.service_name}-kms-decryption"
+  role   = aws_iam_role.ec2.id
+  policy = <<EOF
+{
+  "Statement": [
+    {
+      "Sid": "AllowToDecryptKMSKey",
+      "Action": [
+        "kms:Decrypt"
+      ],
+      "Resource": [
+        "${var.deployment_common_arn}"
+      ],
+      "Effect": "Allow"
+    },
+    {
+      "Sid": "AllowSsmParameterAccess",
+      "Action": [
+        "ssm:GetParameter",
+        "ssm:GetParameters"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:ssm:ap-northeast-2:${var.account_id}:parameter/*"
+      ]
+    }
+  ]
+}
+EOF
+}
 
 
 
