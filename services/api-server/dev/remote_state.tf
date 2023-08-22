@@ -3,7 +3,13 @@ data "terraform_remote_state" "vpc" {
   config  = merge(var.remote_state.vpc.dev, {})
 }
 
-data "terraform_remote_state" "ecr" {
+data "terraform_remote_state" "api-server-ecr" {
   backend = "s3"
-  config  = merge(var.remote_state.ecr.dev, {})
+  config  = merge(var.remote_state.ecr.api_server, {})
+}
+
+data "terraform_remote_state" "kms" {
+  backend = "s3"
+
+  config = merge(var.remote_state.kms.dev, {})
 }

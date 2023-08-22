@@ -7,15 +7,15 @@ resource "aws_security_group" "external_lb" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = concat(var.ext_lb_ingress_cidrs,var.github_hook_sg_ipv4_cidrs)
+    cidr_blocks = concat(var.ext_lb_ingress_cidrs, var.github_hook_sg_ipv4_cidrs)
   }
 
   ingress {
-    from_port = 433
-    to_port = 433
-    protocol = "tcp"
+    from_port        = 433
+    to_port          = 433
+    protocol         = "tcp"
     ipv6_cidr_blocks = var.github_hook_sg_ipv6_cidrs
-  
+
   }
   egress {
     from_port   = 0

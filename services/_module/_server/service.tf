@@ -104,7 +104,7 @@ resource "aws_lb_target_group" "external" {
   health_check {
     interval            = 15
     port                = var.healthcheck_port
-    path                = "/"
+    path                = "/api"
     timeout             = 3
     healthy_threshold   = 3
     unhealthy_threshold = 2
@@ -122,6 +122,7 @@ resource "aws_lb_listener" "external_443" {
   port              = "443"
   protocol          = "HTTPS"
 
+  
   # If you want to use HTTPS, then you need to add certificate_arn here.
   certificate_arn = var.acm_external_ssl_certificate_arn
 
