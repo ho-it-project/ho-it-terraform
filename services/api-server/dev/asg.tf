@@ -22,7 +22,7 @@ resource "aws_autoscaling_group" "ecs-autoscaling_group" {
   vpc_zone_identifier = data.terraform_remote_state.vpc.outputs.public_subnets
 
   name             = "api-server-autoscaling-group"
-  max_size         = 1
+  max_size         = 2
   min_size         = 1
   desired_capacity = 1
   default_cooldown = 60
@@ -32,11 +32,15 @@ resource "aws_autoscaling_group" "ecs-autoscaling_group" {
   force_delete      = true
   target_group_arns = [module.api-server.aws_lb_target_group_arn]
 
+  health_check_type         = "ELB"
+  health_check_grace_period = 300
 
   tag {
     key                 = "Name"
     value               = "api-server-autoscaling-group"
     propagate_at_launch = true
   }
+
+
 }
 

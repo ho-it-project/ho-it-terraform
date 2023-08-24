@@ -44,9 +44,9 @@ resource "aws_security_group" "ec2" {
 
   # Service Port will be passed via variable.
   ingress {
-    from_port = var.service_port
-    to_port   = var.service_port
-    protocol  = "tcp"
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
 
     # Allow external LB Only for ec2 instance
     security_groups = [
@@ -93,25 +93,26 @@ resource "aws_lb" "external" {
 
 #################### External LB Target Group 
 resource "aws_lb_target_group" "external" {
-  name                 = "${var.service_name}-${var.shard_id}-ext"
-  port                 = var.service_port
+  name = "${var.service_name}-${var.shard_id}-ext"
+  port = 80
+
   protocol             = "HTTP"
   vpc_id               = var.target_vpc
   slow_start           = var.lb_variables.target_group_slow_start[var.shard_id]
   deregistration_delay = var.lb_variables.target_group_deregistration_delay[var.shard_id]
-
   # Change the health check setting 
-  health_check {
-    interval            = 15
-    port                = var.healthcheck_port
-    path                = "/api"
-    timeout             = 3
-    healthy_threshold   = 3
-    unhealthy_threshold = 2
-    matcher             = "200"
-  }
+
 
   tags = var.lb_variables.external_lb_tg.tags[var.shard_id]
+
+  health_check {
+    path                = "/api"
+    healthy_threshold   = 2
+    unhealthy_threshold = 10
+    timeout             = 60
+    interval            = 300
+    matcher             = "200,301,302"
+  }
 
 }
 
@@ -122,7 +123,7 @@ resource "aws_lb_listener" "external_443" {
   port              = "443"
   protocol          = "HTTPS"
 
-  
+
   # If you want to use HTTPS, then you need to add certificate_arn here.
   certificate_arn = var.acm_external_ssl_certificate_arn
 
