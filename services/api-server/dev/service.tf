@@ -1,10 +1,9 @@
 module "api-server" {
-  source = "../../_module/_server"
-
+  source       = "../../_module/_server"
   service_name = "hoit-api-server"
 
-  service_port             = 8000
-  healthcheck_port         = 8000
+  service_port             = var.SERVICE_PORT
+  healthcheck_port         = var.SERVICE_PORT
   shard_id                 = data.terraform_remote_state.vpc.outputs.shard_id
   public_subnets           = data.terraform_remote_state.vpc.outputs.public_subnets
   private_subnets          = data.terraform_remote_state.vpc.outputs.private_subnets

@@ -85,12 +85,12 @@ variable "remote_state" {
       er_front = {
         region = "ap-northeast-2"
         bucket = "hoit-apnortheast2-tfstate"
-        key    = "hoit/terraform/ecr/hoit/er_front/terraform.tfstate"
+        key    = "hoit/terraform/ecr/hoit/er-front/terraform.tfstate"
       },
       ems_front = {
         region = "ap-northeast-2"
         bucket = "hoit-apnortheast2-tfstate"
-        key    = "hoit/terraform/ecr/hoit/ems_front/terraform.tfstate"
+        key    = "hoit/terraform/ecr/hoit/ems-front/terraform.tfstate"
       }
     }
   }

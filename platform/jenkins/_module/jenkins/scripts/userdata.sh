@@ -51,11 +51,12 @@ echo "0 * * * * ubuntu /home/ubuntu/docker_login.sh" | sudo tee -a /etc/crontab
 
 
 sudo chown -R jenkins:jenkins /var/lib/jenkins
+sudo mv jenkins.war jenkins.war.old
+
 sudo systemctl start jenkins
 sudo systemctl restart jenkins
 
 
-rm jenkins_2.401.3_all.deb
 
 waitForJenkins
 waitForPasswordFile

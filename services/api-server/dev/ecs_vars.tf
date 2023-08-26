@@ -10,3 +10,7 @@ variable "ACCOUNT_ID" {
 variable "AWS_ECS_AMI" {
   default = "ami-016e409dfaa836cb4"
 }
+
+variable "SERVICE_PORT" {
+
+}

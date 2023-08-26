@@ -6,10 +6,17 @@ provider "aws" {
 resource "aws_s3_bucket" "tfstate" {
   bucket = "${var.ACCOUNT_ALIAS}-apnortheast2-tfstate"
 
-  versioning {
-    enabled = true # Prevent from deleting tfstate file
-  }
+
 }
+
+resource "aws_s3_bucket_versioning" "terraform_state_version" {
+  bucket = aws_s3_bucket.tfstate.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+
+}
+
 
 resource "aws_dynamodb_table" "terraform_state_lock" {
   name         = "terraform-lock"

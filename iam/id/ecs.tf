@@ -90,8 +90,8 @@ EOF
 
 }
 
-resource "aws_iam_role_policy" "universal" {
-  name   = "api-server-universal"
+resource "aws_iam_role_policy" "ecs_ec2_universal" {
+  name   = "ecs-ec2-universal"
   role   = aws_iam_role.ecs-ec2-role.id
   policy = <<EOF
 {
@@ -164,7 +164,7 @@ EOF
 
 
 resource "aws_iam_role_policy" "kms" {
-  name   = "api-server-kms-decryption"
+  name   = "ecs-ec2-kms-decryption"
   role   = aws_iam_role.ecs-ec2-role.id
   policy = <<EOF
 {
@@ -175,7 +175,7 @@ resource "aws_iam_role_policy" "kms" {
         "kms:Decrypt"
       ],
       "Resource": [
-        "${data.terraform_remote_state.kms.outputs.aws_kms_key_id_apne2_deployment_common_arn}"
+        "${data.terraform_remote_state.kms_apne2.outputs.aws_kms_key_id_apne2_deployment_common_arn}"
       ],
       "Effect": "Allow"
     },
@@ -194,6 +194,8 @@ resource "aws_iam_role_policy" "kms" {
 }
 EOF
 }
+
+
 # ecs service role
 resource "aws_iam_role" "ecs-service-role" {
   name               = "ecs-service-role"
@@ -216,9 +218,17 @@ EOF
 }
 
 resource "aws_iam_policy_attachment" "ecs-service-attach" {
-  name       = "ecs-service-attach1"
+  name       = "ecs-service-attach"
   roles      = [aws_iam_role.ecs-service-role.name]
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
 }
 
+output "aws_iam_instance_profile_ecs_ec2_role_id" {
+  description = "aws_iam_instance_profile"
+  value       = aws_iam_instance_profile.ecs-ec2-role.id
+}
 
+output "aws_iam_role_ecs_service_role_arn" {
+  description = "aws_iam_role"
+  value       = aws_iam_role.ecs-service-role.arn
+}

@@ -13,3 +13,9 @@ data "terraform_remote_state" "kms" {
 
   config = merge(var.remote_state.kms.dev, {})
 }
+
+
+data "terraform_remote_state" "iam" {
+  backend = "s3"
+  config  = merge(var.remote_state.iam.id, {})
+}

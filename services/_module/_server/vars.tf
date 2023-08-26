@@ -2,6 +2,7 @@ variable "service_name" {
   description = ""
 }
 
+
 variable "shard_id" {
   description = "Text used to identify shard of infrastructure components. For new shards, this should be only the shard id and should not include the AWS region (e.g. ap01)"
 }
@@ -81,3 +82,5 @@ variable "service_port" {
 variable "healthcheck_port" {
   description = "Healthcheck Port"
 }
+
+

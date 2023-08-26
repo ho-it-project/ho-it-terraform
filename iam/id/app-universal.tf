@@ -95,3 +95,5 @@ resource "aws_iam_policy" "app_universal" {
 
     EOF
 }
+
+

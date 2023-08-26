@@ -27,8 +27,8 @@ resource "aws_launch_configuration" "launch_configuration" {
 # BUT, using private subnet is recommended 
 resource "aws_autoscaling_group" "autoscaling_group" {
   # vpc_zone_identifier = var.private_subnets
-  vpc_zone_identifier       = var.public_subnets
-  
+  vpc_zone_identifier = var.public_subnets
+
   name                      = "${var.service_name}-master-${var.vpc_name}"
   max_size                  = var.instance_count_max
   min_size                  = var.instance_count_min
