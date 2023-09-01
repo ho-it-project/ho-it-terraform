@@ -31,8 +31,8 @@ module "jenkins" {
 
   # Instance Count Variables
   instance_count_max     = 1
-  instance_count_min     = 1
-  instance_count_desired = 1
+  instance_count_min     = 0
+  instance_count_desired = 0
 
   # Route53 variables
   acm_external_ssl_certificate_arn = var.r53_variables.ho-it_me_ssl

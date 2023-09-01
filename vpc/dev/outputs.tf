@@ -65,7 +65,11 @@ output "db_private_subnets" {
   value       = aws_subnet.private_db.*.id
 }
 
+output "db_public_subnets" {
+  description = "List of DB public subnet ID in VPC"
+  value       = aws_subnet.public_db.*.id
 
+}
 
 
 # Route53
