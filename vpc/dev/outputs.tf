@@ -115,6 +115,15 @@ output "billing_tag" {
   value       = var.billing_tag
 }
 
+
+# output "vpc_endpoint_ssm_id" {
+#   description = "ID of SSM VPC Endpoint"
+#   value       = aws_vpc_endpoint.ssm_endpoint.id
+# }
+# output "ssm_vpc_endpoint_sg" {
+#   description = "ID of SSM VPC Endpoint Security Group"
+#   value       = aws_security_group.ssm_vpc_endpoint_sg.id
+# }
 # resource "null_resource" "output_to_file" {
 #   provisioner "local-exec" {
 #     command = <<-EOT

@@ -7,7 +7,8 @@ resource "aws_iam_group_membership" "devops_black" {
   name = aws_iam_group.devops_black.name
 
   users = [
-    aws_iam_user.denovo.name
+    aws_iam_user.denovo.name,
+    aws_iam_user.anthony.name
   ]
 
   group = aws_iam_group.devops_black.name

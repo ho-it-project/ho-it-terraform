@@ -35,7 +35,8 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   default_cooldown          = 60
   health_check_grace_period = 60
   health_check_type         = "EC2"
-  desired_capacity          = var.instance_count_desired
+
+  desired_capacity = var.instance_count_desired
 
   force_delete         = true
   launch_configuration = aws_launch_configuration.launch_configuration.name

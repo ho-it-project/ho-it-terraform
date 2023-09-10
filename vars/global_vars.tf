@@ -82,6 +82,11 @@ variable "remote_state" {
         bucket = "hoit-apnortheast2-tfstate"
         key    = "hoit/terraform/ecr/hoit/api-server/terraform.tfstate"
       },
+      notification_server = {
+        region = "ap-northeast-2"
+        bucket = "hoit-apnortheast2-tfstate"
+        key    = "hoit/terraform/ecr/hoit/notification-server/terraform.tfstate"
+      },
       er_front = {
         region = "ap-northeast-2"
         bucket = "hoit-apnortheast2-tfstate"
@@ -91,7 +96,13 @@ variable "remote_state" {
         region = "ap-northeast-2"
         bucket = "hoit-apnortheast2-tfstate"
         key    = "hoit/terraform/ecr/hoit/ems-front/terraform.tfstate"
+      },
+      kafka = {
+        bucket = "hoit-apnortheast2-tfstate"
+        key    = "hoit/terraform/ecr/hoit/kafka/terraform.tfstate"
+        region = "ap-northeast-2"
       }
+
     }
 
     route53 = {

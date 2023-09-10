@@ -31,8 +31,8 @@ module "jenkins" {
 
   # Instance Count Variables
   instance_count_max     = 1
-  instance_count_min     = 0
-  instance_count_desired = 0
+  instance_count_min     = 1
+  instance_count_desired = 1
 
   # Route53 variables
   acm_external_ssl_certificate_arn = var.r53_variables.ho-it_me_ssl
@@ -54,5 +54,5 @@ module "jenkins" {
   # Control allowed IP for external LB 
   # 내부망과 깃허브 훅만 허용
   # 개발단계이기에 모든 IP 허용
-  ext_lb_ingress_cidrs = ["0.0.0.0/0"]
+  ext_lb_ingress_cidrs = ["0.0.0.0/0", "10.0.0.0/24"]
 }

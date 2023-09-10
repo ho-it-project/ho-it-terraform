@@ -4,7 +4,7 @@ resource "aws_route53_record" "rds_postgresql" {
   type    = "CNAME"
   ttl     = "300"
   records = [
-    aws_db_instance.rds_postgresql.endpoint,
+    aws_db_instance.rds_postgresql.address,
   ]
 }
 

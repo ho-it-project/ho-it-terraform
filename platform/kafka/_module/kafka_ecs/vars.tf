@@ -1,9 +1,39 @@
+
 variable "service_name" {
-  description = ""
+
 }
 
-variable "healthcheck_path" {
-  default = "/"
+variable "broker_count" {
+  default = 3
+}
+
+variable "domain_name" {
+  default = "kafka"
+}
+variable "domain" {
+  default = ""
+}
+
+variable "AWS_ECS_AMI" {
+  default = "ami-016e409dfaa836cb4"
+}
+
+variable "instance_type" {
+  default = "t2.small"
+}
+
+variable "vpc_endpoint_ssm_id" {
+}
+variable "ssm_vpc_endpoint_sg" {
+
+}
+
+variable "account_id" {
+  description = "The AWS account number"
+}
+
+variable "repository_url" {
+
 }
 
 variable "shard_id" {
@@ -74,16 +104,57 @@ variable "home_sg" {
   default     = ""
 }
 
-variable "domain_name" {
-  description = "Domain Name"
+
+variable "aws_iam_instance_profile_ecs_ec2_role_id" {
+  description = "The IAM Instance Profile ID for ECS EC2"
 }
 
-variable "service_port" {
-  description = "Service Port"
+variable "newrelic_monitor" {
+  description = "Boolean of whether or not to monitor with newrelic"
+  default     = false
 }
 
-variable "healthcheck_port" {
-  description = "Healthcheck Port"
+variable "ssh_key_name" {
+  description = "The key name to SSH into instances with"
+  default     = "preprod-master"
+}
+variable "deployment_common_arn" {
+  description = "The ARN of KMS for deployment_common."
+}
+variable "ecs_service_role_arn" {
+
+}
+
+variable "instance_size" {
+  description = "instance type"
+  default     = "t3.small"
 }
 
 
+variable "tag_first_owner" {
+  description = ""
+}
+
+variable "tag_second_owner" {
+  description = ""
+}
+
+variable "tag_project" {
+  description = ""
+}
+
+
+variable "instance_count_desired" {
+  description = "The desired number of agents that are to be active"
+  default     = 1
+}
+
+variable "instance_count_max" {
+  description = "The maximum number of agents that are to be active"
+  default     = 1
+}
+
+variable "instance_count_min" {
+  description = "The minimum number of agents that are to be active"
+  default     = 1
+}

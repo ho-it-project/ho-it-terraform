@@ -18,8 +18,7 @@ function waitForPasswordFile() {
 
 sudo apt update
 sudo apt install -y openjdk-11-jdk jq git awscli nmap nfs-common net-tools docker.io
-
-
+export DOCKER_BUILDKIT=1
 
 
 export JENKINS_HOME=/var/lib/jenkins

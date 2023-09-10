@@ -105,14 +105,14 @@ resource "aws_lb_target_group" "external" {
 
   tags = var.lb_variables.external_lb_tg.tags[var.shard_id]
 
-  health_check {
-    path                = "/api"
-    healthy_threshold   = 2
-    unhealthy_threshold = 10
-    timeout             = 60
-    interval            = 300
-    matcher             = "200,301,302"
-  }
+  # health_check {
+  #   path                = var.healthcheck_path
+  #   healthy_threshold   = 2
+  #   unhealthy_threshold = 10
+  #   timeout             = 60
+  #   interval            = 300
+  #   matcher             = "200,301,302,304"
+  # }
 
 }
 

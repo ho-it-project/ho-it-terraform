@@ -1,6 +1,6 @@
-module "api-server" {
+module "notification-server" {
   source       = "../../_module/_server"
-  service_name = "hoit-api-server"
+  service_name = "hoit-notification-server"
 
   service_port             = var.SERVICE_PORT
   healthcheck_port         = var.SERVICE_PORT
@@ -15,8 +15,8 @@ module "api-server" {
   vpc_name                 = data.terraform_remote_state.vpc.outputs.vpc_name
   billing_tag              = data.terraform_remote_state.vpc.outputs.billing_tag
 
-  domain_name      = "api"
-  healthcheck_path = "/api"
+  domain_name      = "notification"
+  healthcheck_path = "/api/health"
 
   acm_external_ssl_certificate_arn = var.r53_variables.ho-it_me_ssl
   route53_external_zone_id         = var.r53_variables.ho-it_me_zone_id

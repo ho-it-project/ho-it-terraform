@@ -91,11 +91,11 @@ resource "aws_lb_target_group" "external" {
   health_check {
     interval            = 15
     port                = var.healthcheck_port
-    path                = "/"
+    path                = "/login"
     timeout             = 3
     healthy_threshold   = 3
     unhealthy_threshold = 2
-    matcher             = "200"
+    matcher             = "200,301,302"
   }
 
   tags = var.lb_variables.external_lb_tg.tags[var.shard_id]

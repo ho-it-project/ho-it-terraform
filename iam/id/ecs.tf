@@ -156,6 +156,16 @@ resource "aws_iam_role_policy" "ecs_ec2_universal" {
             "ec2messages:SendReply"
         ],
         "Resource": "*"
+    },
+    {
+        "Action": [
+          "s3:GetObject"
+        ],
+        "Effect": "Allow",
+        "Resource": [
+        "arn:aws:s3:::amazonlinux.region.amazonaws.com/*",
+        "arn:aws:s3:::amazonlinux-2-repos-region/*"
+        ]
     }
   ]
 }

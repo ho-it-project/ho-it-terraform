@@ -12,6 +12,14 @@ resource "aws_route" "db_public_internet_gateway" {
   gateway_id             = aws_internet_gateway.default.id
 
 }
+
+
+# resource "aws_route" "private_internet_gateway" {
+#   count                  = length(var.availability_zones)
+#   route_table_id         = element(aws_route_table.private.*.id, count.index)
+#   destination_cidr_block = "0.0.0.0/0"
+#   gateway_id             = aws_internet_gateway.default.id
+# }
 ## routes for NAT gateway which will be set in private subent
 # resource "aws_route" "private_nat" {
 #   count                  = length(var.availability_zones)
