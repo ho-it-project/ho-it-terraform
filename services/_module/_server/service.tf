@@ -117,12 +117,13 @@ resource "aws_lb_target_group" "external" {
 }
 
 
+
 #################### Listener for HTTPS service
 resource "aws_lb_listener" "external_443" {
   load_balancer_arn = aws_lb.external.arn
   port              = "443"
   protocol          = "HTTPS"
-
+  
 
   # If you want to use HTTPS, then you need to add certificate_arn here.
   certificate_arn = var.acm_external_ssl_certificate_arn

@@ -35,6 +35,13 @@
       { "name": "KAFKA_LOG_DIRS", "value": "/tmp/kraft-combined-logs" },
       { "name": "KAFKA_AUTO_CREATE_TOPICS_ENABLE", "value": "false" },
       { "name": "KAFKA_HEAP_OPTS", "value" :"-Xmx256M -Xms128M"}
-    ]
+    ],
+    "healthCheck": {
+      "command": ["CMD-SHELL", "nc -z localhost 9092 || exit 1"],
+      "interval": 30,
+      "timeout": 5,
+      "retries": 3,
+      "startPeriod": 10
+    }
   }
 ]

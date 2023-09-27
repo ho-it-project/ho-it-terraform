@@ -14,3 +14,8 @@ variable "AWS_ECS_AMI" {
 variable "SERVICE_PORT" {
 
 }
+
+variable "SECANDARY_SERVICE_PORT" {
+  default = 0
+
+}

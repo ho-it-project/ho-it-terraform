@@ -17,13 +17,6 @@ resource "aws_ecs_task_definition" "task-definition" {
     expression = "attribute:type == kafka${count.index + 1}"
   }
 
-  health_check {
-    command      = ["CMD-SHELL", "docker ps -f name=kafka${count.index + 1} --format '{{.Names}}'"]
-    interval     = 10
-    retries      = 3
-    start_period = 60
-    timeout      = 5
-  }
   container_definitions = templatefile("${path.module}/templates/app.json.tpl", {
     KAFKA_HOST_NAME                                = element(local.kafka_hosts, count.index)
     REPOSITORY_URL                                 = var.repository_url
