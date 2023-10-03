@@ -17,8 +17,9 @@ function waitForPasswordFile() {
 }
 
 sudo apt update
-sudo apt install -y openjdk-11-jdk jq git awscli nmap nfs-common net-tools docker.io
-export DOCKER_BUILDKIT=1
+sudo apt install -y openjdk-11-jdk jq git awscli nmap nfs-common net-tools docker.io 
+# dockerd --experimental=true
+# export DOCKER_BUILDKIT=1
 
 
 export JENKINS_HOME=/var/lib/jenkins
@@ -27,18 +28,19 @@ sudo mkdir -p $JENKINS_HOME
 # Replace ${efs_dns_name} with your actual EFS DNS name
 sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport ${efs_dns_name}:/ $JENKINS_HOME
 
-wget https://pkg.jenkins.io/debian-stable/binary/jenkins_2.401.3_all.deb
-sudo dpkg -i jenkins_2.401.3_all.deb
+wget https://pkg.jenkins.io/debian-stable/binary/jenkins_2.414.2_all.deb
+sudo dpkg -i jenkins_2.414.2_all.deb
 
 sudo sed -i 's/Djava.awt.headless=true/Djava.awt.headless=true -Xmx2G -Xms2G -Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia\/Seoul/g' /etc/default/jenkins
 
 
-sudo usermod -aG docker jenkins
+
 sudo systemctl enable docker
 sudo systemctl start docker
 sudo systemctl restart docker
+sudo usermod -aG docker jenkins
+sudo service jenkins restart
 sudo -u jenkins -H sh -c "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${aws_account_id}.dkr.ecr.ap-northeast-2.amazonaws.com"
-
 #!/bin/bash -ex
 
 # Create a script to perform docker login
@@ -53,8 +55,8 @@ sudo chown -R jenkins:jenkins /var/lib/jenkins
 sudo mv jenkins.war jenkins.war.old
 
 sudo systemctl start jenkins
-sudo systemctl restart jenkins
 
+sudo systemctl restart jenkins
 
 
 waitForJenkins
