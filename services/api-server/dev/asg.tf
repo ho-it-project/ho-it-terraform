@@ -32,7 +32,8 @@ resource "aws_autoscaling_group" "ecs-autoscaling_group" {
   force_delete      = true
   target_group_arns = [module.api-server.aws_lb_target_group_arn]
 
-  health_check_type         = "ELB"
+  health_check_type = "EC2"
+
   health_check_grace_period = 300
 
   tag {

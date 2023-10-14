@@ -101,6 +101,11 @@ variable "remote_state" {
         bucket = "hoit-apnortheast2-tfstate"
         key    = "hoit/terraform/ecr/hoit/kafka/terraform.tfstate"
         region = "ap-northeast-2"
+      },
+      kafka-ui = {
+        bucket = "hoit-apnortheast2-tfstate"
+        key    = "hoit/terraform/ecr/hoit/kafka-ui/terraform.tfstate"
+        region = "ap-northeast-2"
       }
 
     }

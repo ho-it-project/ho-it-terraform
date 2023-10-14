@@ -11,8 +11,8 @@ resource "aws_launch_configuration" "ecs-launch-configuration" {
   associate_public_ip_address = true
   key_name                    = var.SSH_KEY_NAME
 
-  iam_instance_profile        = data.terraform_remote_state.iam.outputs.aws_iam_instance_profile_ecs_ec2_role_id
-  user_data                   = data.template_file.init.rendered
+  iam_instance_profile = data.terraform_remote_state.iam.outputs.aws_iam_instance_profile_ecs_ec2_role_id
+  user_data            = data.template_file.init.rendered
   lifecycle {
     create_before_destroy = true
   }
@@ -33,7 +33,7 @@ resource "aws_autoscaling_group" "ecs-autoscaling_group" {
   force_delete      = true
   target_group_arns = [module.er-front.aws_lb_target_group_arn]
 
-  health_check_type         = "ELB"
+  health_check_type         = "EC2"
   health_check_grace_period = 300
 
   tag {

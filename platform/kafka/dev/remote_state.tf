@@ -21,6 +21,12 @@ data "terraform_remote_state" "kafka" {
   config  = merge(var.remote_state.ecr.kafka, {})
 }
 
+data "terraform_remote_state" "kafka-ui" {
+  backend = "s3"
+  config  = merge(var.remote_state.ecr.kafka-ui, {})
+}
+
+
 data "terraform_remote_state" "ho-it_me" {
   backend = "s3"
   config  = merge(var.remote_state.route53.ho-it_me, {})

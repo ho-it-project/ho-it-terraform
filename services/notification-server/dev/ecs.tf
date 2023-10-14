@@ -30,6 +30,13 @@ resource "aws_ecs_service" "notification-server" {
     target_group_arn = module.notification-server.aws_lb_target_group_arn
     container_name   = "notification-server"
     container_port   = var.SERVICE_PORT
+    # health_check = {
+    #   path                = "/api/health"
+    #   interval            = 10
+    #   timeout             = 5
+    #   healthy_threshold   = 2
+    #   unhealthy_threshold = 2
+    # }
   }
 
   # health_check_grace_period_seconds = 300

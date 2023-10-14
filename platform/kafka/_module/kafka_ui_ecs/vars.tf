@@ -19,7 +19,7 @@ variable "AWS_ECS_AMI" {
 }
 
 variable "instance_type" {
-  default = "t2.small"
+  default = "t2a.small"
 }
 
 variable "vpc_endpoint_ssm_id" {
@@ -127,7 +127,7 @@ variable "ecs_service_role_arn" {
 
 variable "instance_size" {
   description = "instance type"
-  default     = "t3a.small"
+  default     = "t3.small"
 }
 
 
@@ -158,3 +158,21 @@ variable "instance_count_min" {
   description = "The minimum number of agents that are to be active"
   default     = 1
 }
+
+
+
+variable "MYAPP_SERVICE_ENABLED" {
+  default = 1
+}
+
+variable "SERVICE_PORT" {
+  default = 8080
+}
+
+variable "healthcheck_path" {
+  default = "/"
+}
+
+variable "KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS" {
+}
+

@@ -9,7 +9,7 @@ resource "aws_ecs_task_definition" "api-server-task-definition" {
 
 resource "aws_ecs_service" "api-server" {
   count           = var.MYAPP_SERVICE_ENABLE
-  name            = "api-server"
+  name            = "api-serverr"
   cluster         = aws_ecs_cluster.api-server-cluster.id
   task_definition = aws_ecs_task_definition.api-server-task-definition.arn
   desired_count   = 1
@@ -23,6 +23,7 @@ resource "aws_ecs_service" "api-server" {
     target_group_arn = module.api-server.aws_lb_target_group_arn
     container_name   = "api-server"
     container_port   = var.SERVICE_PORT
+
   }
 
   # health_check_grace_period_seconds = 300

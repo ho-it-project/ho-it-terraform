@@ -66,4 +66,3 @@ resource "aws_ecs_service" "kafka" {
     "Kafka" = count.index + 1
   }
 }
-
