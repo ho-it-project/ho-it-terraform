@@ -1,11 +1,11 @@
 # app
 locals {
   kafka_hosts = [
-    for i in range(0, 3) : "kafka${i + 1}.ho-it.me"
+    for i in range(0, var.broker_count) : "kafka${i + 1}.ho-it.me"
   ]
 }
 locals {
-  KAFKA_CONTROLLER_QUORUM_VOTERS = join(",", [for idx in range(3) : format("%d@%s:29093", idx + 1, element(local.kafka_hosts, idx))])
+  KAFKA_CONTROLLER_QUORUM_VOTERS = join(",", [for idx in range(var.broker_count) : format("%d@%s:29093", idx + 1, element(local.kafka_hosts, idx))])
 }
 
 resource "aws_ecs_task_definition" "task-definition" {
@@ -22,8 +22,8 @@ resource "aws_ecs_task_definition" "task-definition" {
     REPOSITORY_URL                                 = var.repository_url
     KAFKA_NUM                                      = count.index + 1
     KAFKA_CONTROLLER_QUORUM_VOTERS                 = local.KAFKA_CONTROLLER_QUORUM_VOTERS
-    KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR         = 3
-    KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR = 3
+    KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR         = var.broker_count
+    KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR = var.broker_count
   })
 }
 

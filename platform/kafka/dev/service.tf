@@ -2,7 +2,7 @@ module "kafka" {
   source       = "../_module/kafka_ecs"
   service_name = "kafka"
   account_id   = var.ACCOUNT_ID
-  broker_count = 3
+  broker_count = 1
   domain_name  = "kafka"
   domain       = "ho-it.me"
 
