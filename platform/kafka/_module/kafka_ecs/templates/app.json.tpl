@@ -4,22 +4,19 @@
     "image": "${REPOSITORY_URL}:latest",
     "memoryReservation": 512,
     "essential": true,
-    "hostname": "${KAFKA_HOST_NAME}",
+    "networkMode":"host",
     "portMappings": [
       {
-        "containerPort": 9092,
-        "hostPort": 9092
+        "containerPort": 9092
       },
       {
-        "containerPort": 29093,
-        "hostPort": 29093
+        "containerPort": 29092
       },
       {
-        "containerPort": 29092,
-        "hostPort": 29092
+        "containerPort": 29093
       }
     ],
-    "environment":[
+     "environment":[
       { "name": "KAFKA_NODE_ID", "value": "${KAFKA_NUM}" },
       { "name": "KAFKA_CONTROLLER_LISTENER_NAMES", "value": "CONTROLLER" },
       { "name": "KAFKA_LISTENER_SECURITY_PROTOCOL_MAP", "value": "CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT" },
@@ -41,7 +38,7 @@
       "interval": 30,
       "timeout": 5,
       "retries": 3,
-      "startPeriod": 10
+      "startPeriod": 60
     }
   }
 ]

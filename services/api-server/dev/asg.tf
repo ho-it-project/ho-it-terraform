@@ -6,7 +6,7 @@ resource "aws_launch_configuration" "ecs-launch-configuration" {
   name_prefix     = "api-server-"
   image_id        = var.AWS_ECS_AMI
   instance_type   = var.EC2_TYPE["t3micro"]
-  security_groups = [module.api-server.aws_security_group_ec2_id]
+  security_groups = [data.terraform_remote_state.alb.outputs.ec2_sg.id]
 
   associate_public_ip_address = true
   key_name                    = var.SSH_KEY_NAME
@@ -29,8 +29,9 @@ resource "aws_autoscaling_group" "ecs-autoscaling_group" {
 
   launch_configuration = aws_launch_configuration.ecs-launch-configuration.name
 
-  force_delete      = true
-  target_group_arns = [module.api-server.aws_lb_target_group_arn]
+  force_delete = true
+  # target_group_arns = [module.api-server.aws_lb_target_group_arn]
+  target_group_arns = [data.terraform_remote_state.alb.outputs.api_server_lb_tg.arn]
 
   health_check_type = "EC2"
 
@@ -43,5 +44,26 @@ resource "aws_autoscaling_group" "ecs-autoscaling_group" {
   }
 
 
+}
+
+
+
+resource "aws_autoscaling_schedule" "scale_down" {
+  scheduled_action_name  = "scale_down"
+  min_size               = 0
+  max_size               = 0
+  desired_capacity       = 0
+  recurrence             = "0 0 * * *"
+  time_zone              = "Asia/Seoul"
+  autoscaling_group_name = aws_autoscaling_group.ecs-autoscaling_group.name
+}
+resource "aws_autoscaling_schedule" "scale_up" {
+  scheduled_action_name  = "scale_up"
+  min_size               = 1
+  max_size               = 1
+  desired_capacity       = 1
+  recurrence             = "10 15 * * *"
+  time_zone              = "Asia/Seoul"
+  autoscaling_group_name = aws_autoscaling_group.ecs-autoscaling_group.name
 }
 

@@ -46,12 +46,11 @@ resource "aws_autoscaling_group" "autoscaling_group" {
 
   force_delete         = true
   launch_configuration = element(aws_launch_configuration.launch_configuration.*.name, count.index)
-
-  target_group_arns = [
-    element(aws_lb_target_group.external_29093.*.arn, count.index),
-    element(aws_lb_target_group.external_9092.*.arn, count.index),
-    element(aws_lb_target_group.external_29092.*.arn, count.index)
-  ]
+  # target_group_arns = [
+  #   element(aws_lb_target_group.external_29093.*.arn, count.index),
+  #   element(aws_lb_target_group.external_9092.*.arn, count.index),
+  #   element(aws_lb_target_group.external_29092.*.arn, count.index)
+  # ]
 
 
   lifecycle {
@@ -86,11 +85,11 @@ resource "aws_autoscaling_group" "autoscaling_group" {
     value               = var.tag_project
     propagate_at_launch = true
   }
-  depends_on = [aws_lb_target_group.external_29092
-    , aws_lb_target_group.external_29093
-    , aws_lb_target_group.external_9092
+  # depends_on = [aws_lb_target_group.external_29092
+  #   , aws_lb_target_group.external_29093
+  #   , aws_lb_target_group.external_9092
 
-  ]
+  # ]
 }
 
 # resource "aws_autoscaling_attachment" "web" {
@@ -102,3 +101,24 @@ resource "aws_autoscaling_group" "autoscaling_group" {
 #   element(aws_lb_target_group.external_9092.*.arn, count.index),
 #   element(aws_lb_target_group.external_29092.*.arn, count.index)
 # ]
+resource "aws_autoscaling_schedule" "scale_down" {
+  count                  = var.broker_count
+  scheduled_action_name  = "scale_down"
+  min_size               = 0
+  max_size               = 0
+  desired_capacity       = 0
+  recurrence             = "0 0 * * *"
+  time_zone              = "Asia/Seoul"
+  autoscaling_group_name = element(aws_autoscaling_group.autoscaling_group.*.name, count.index)
+}
+resource "aws_autoscaling_schedule" "scale_up" {
+  count                  = var.broker_count
+  scheduled_action_name  = "scale_up"
+  min_size               = 1
+  max_size               = 1
+  desired_capacity       = 1
+  recurrence             = "0 15 * * *"
+  time_zone              = "Asia/Seoul"
+  autoscaling_group_name = element(aws_autoscaling_group.autoscaling_group.*.name, count.index)
+
+}

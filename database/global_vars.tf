@@ -118,6 +118,23 @@ variable "remote_state" {
       }
 
     }
+
+    lb = {
+      dev = {
+        region = "ap-northeast-2"
+        bucket = "hoit-apnortheast2-tfstate"
+        key    = "hoit/terraform/lb/alb/dev/terraform.tfstate"
+      }
+    }
+
+    nlb = {
+      dev = {
+        region = "ap-northeast-2"
+        bucket = "hoit-apnortheast2-tfstate"
+        key    = "hoit/terraform/lb/nlb/dev/terraform.tfstate"
+      }
+    }
+
   }
 }
 

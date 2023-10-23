@@ -1,10 +1,11 @@
 module "jenkins" {
-  source           = "../_module/jenkins"
-  service_name     = "jenkins"
-  service_port     = 8080
-  healthcheck_port = 8080
-  account_id       = var.account_id.dev
-
+  source                   = "../_module/jenkins"
+  service_name             = "jenkins"
+  service_port             = 8080
+  healthcheck_port         = 8080
+  account_id               = var.account_id.dev
+  lb_tg_arn                = data.terraform_remote_state.alb.outputs.jenkins_tg.arn
+  ec2_sg                   = data.terraform_remote_state.alb.outputs.ec2_sg.id
   shard_id                 = data.terraform_remote_state.vpc.outputs.shard_id
   public_subnets           = data.terraform_remote_state.vpc.outputs.public_subnets
   private_subnets          = data.terraform_remote_state.vpc.outputs.private_subnets

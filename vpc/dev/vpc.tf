@@ -5,6 +5,7 @@
 resource "aws_vpc" "default" {
   cidr_block           = "10.${var.cidr_numeral}.0.0/16" # Please set this according to your company size
   enable_dns_hostnames = true
+  enable_dns_support   = true # DNS 리졸루션 활성화
 
   tags = {
     Name = "vpc-${var.vpc_name}"
@@ -14,7 +15,7 @@ resource "aws_vpc" "default" {
 # Internet Gateway
 resource "aws_internet_gateway" "default" {
   vpc_id = aws_vpc.default.id
-  
+
   tags = {
     Name = "igw-${var.vpc_name}"
   }

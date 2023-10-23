@@ -259,49 +259,49 @@
 # }
 
 # # Security Group for ECS Agent VPC Endpoint
-# resource "aws_security_group" "ecs_agent_vpc_endpoint_sg" {
-#   name   = "ecs-agent-vpc-endpoint-${var.vpc_name}"
-#   vpc_id = aws_vpc.default.id
+# # resource "aws_security_group" "ecs_agent_vpc_endpoint_sg" {
+# #   name   = "ecs-agent-vpc-endpoint-${var.vpc_name}"
+# #   vpc_id = aws_vpc.default.id
 
-#   ingress {
-#     from_port   = 443
-#     to_port     = 443
-#     protocol    = "tcp"
-#     cidr_blocks = ["10.0.0.0/8"] # Adjust this CIDR range accordingly
-#   }
+# #   ingress {
+# #     from_port   = 443
+# #     to_port     = 443
+# #     protocol    = "tcp"
+# #     cidr_blocks = ["10.0.0.0/8"] # Adjust this CIDR range accordingly
+# #   }
 
-#   egress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = "-1"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
+# #   egress {
+# #     from_port   = 0
+# #     to_port     = 0
+# #     protocol    = "-1"
+# #     cidr_blocks = ["0.0.0.0/0"]
+# #   }
 
-#   tags = {
-#     Name = "ecs-agent-${var.vpc_name}"
-#   }
-# }
+# #   tags = {
+# #     Name = "ecs-agent-${var.vpc_name}"
+# #   }
+# # }
 
 # # Create a VPC Endpoint for ECS Agent
-# resource "aws_vpc_endpoint" "ecs_agent_endpoint" {
-#   vpc_id            = aws_vpc.default.id
-#   service_name      = "com.amazonaws.${var.AWS_REGION}.ecs-agent"
-#   vpc_endpoint_type = "Interface"
+# # resource "aws_vpc_endpoint" "ecs_agent_endpoint" {
+# #   vpc_id            = aws_vpc.default.id
+# #   service_name      = "com.amazonaws.${var.AWS_REGION}.ecs-agent"
+# #   vpc_endpoint_type = "Interface"
 
-#   security_group_ids = [
-#     aws_security_group.ecs_agent_vpc_endpoint_sg.id,
-#   ]
+# #   security_group_ids = [
+# #     aws_security_group.ecs_agent_vpc_endpoint_sg.id,
+# #   ]
 
-#   private_dns_enabled = true
+# #   private_dns_enabled = true
 
-#   tags = {
-#     Name = "ecs-agent-${var.vpc_name}"
-#   }
-# }
+# #   tags = {
+# #     Name = "ecs-agent-${var.vpc_name}"
+# #   }
+# # }
 
 # # Attach the ECS Agent VPC Endpoint to the private subnets
-# resource "aws_vpc_endpoint_subnet_association" "ecs_agent_subnet_association" {
-#   count           = length(var.availability_zones)
-#   vpc_endpoint_id = aws_vpc_endpoint.ecs_agent_endpoint.id
-#   subnet_id       = element(aws_subnet.private.*.id, count.index)
-# }
+# # resource "aws_vpc_endpoint_subnet_association" "ecs_agent_subnet_association" {
+# #   count           = length(var.availability_zones)
+# #   vpc_endpoint_id = aws_vpc_endpoint.ecs_agent_endpoint.id
+# #   subnet_id       = element(aws_subnet.private.*.id, count.index)
+# # }

@@ -11,7 +11,7 @@ resource "aws_security_group" "efs" {
     protocol  = "tcp"
     security_groups = [
       # EC2 Instance Secyrity Group
-      aws_security_group.ec2.id
+      var.ec2_sg
     ]
   }
 

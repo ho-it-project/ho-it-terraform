@@ -1,23 +1,20 @@
 
 # ecs ec2 role
 resource "aws_iam_role" "ecs-ec2-role" {
-  name               = "ecs-ec2-role"
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-EOF
-
+  name = "ecs-ec2-role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = "sts:AssumeRole",
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        },
+        Effect = "Allow",
+        Sid    = ""
+      }
+    ]
+  })
 }
 
 resource "aws_iam_instance_profile" "ecs-ec2-role" {
@@ -91,85 +88,84 @@ EOF
 }
 
 resource "aws_iam_role_policy" "ecs_ec2_universal" {
-  name   = "ecs-ec2-universal"
-  role   = aws_iam_role.ecs-ec2-role.id
-  policy = <<EOF
-{
-  "Statement": [
-    {
-      "Sid": "AllowAnsibleDescribeEc2TagsAccess",
-      "Action": "ec2:DescribeTags",
-      "Resource": "*",
-      "Effect": "Allow"
-    },
-    {
-      "Sid": "AllowVPCAccess",
-      "Effect": "Allow",
-      "Action": [
-        "ec2:CreateNetworkInterface",
-        "ec2:DescribeDhcpOptions",
-        "ec2:DescribeNetworkInterfaces",
-        "ec2:DeleteNetworkInterface",
-        "ec2:DescribeSubnets",
-        "ec2:DescribeSecurityGroups",
-        "ec2:DescribeVpcs"
-      ],
-        "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:CreateNetworkInterfacePermission"
-      ],
-        "Resource": "arn:aws:ec2:ap-northeast-2:${var.ACCOUNT_ID}:network-interface/*"
-    },
-    {
-        "Effect": "Allow",
-        "Action": [
-            "ssm:ResumeSession",
-            "ssm:DescribeSessions",
-            "ssm:TerminateSession",
-            "ssm:StartSession",
-            "ssm:UpdateInstanceInformation",
-            "ssmmessages:CreateControlChannel",
-            "ssmmessages:CreateDataChannel",
-            "ssmmessages:OpenControlChannel",
-            "ssmmessages:OpenDataChannel"
+  name = "ecs-ec2-universal"
+  role = aws_iam_role.ecs-ec2-role.id
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Sid      = "AllowAnsibleDescribeEc2TagsAccess",
+        Action   = "ec2:DescribeTags",
+        Resource = "*",
+        Effect   = "Allow"
+      },
+      {
+        Sid    = "AllowVPCAccess",
+        Effect = "Allow",
+        Action = [
+          "ec2:CreateNetworkInterface",
+          "ec2:DescribeDhcpOptions",
+          "ec2:DescribeNetworkInterfaces",
+          "ec2:DeleteNetworkInterface",
+          "ec2:DescribeSubnets",
+          "ec2:DescribeSecurityGroups",
+          "ec2:DescribeVpcs"
         ],
-        "Resource": "*"
-    },
-    {
-        "Effect": "Allow",
-        "Action": [
-            "s3:GetEncryptionConfiguration"
+        Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "ec2:CreateNetworkInterfacePermission"
         ],
-        "Resource": "*"
-    },
-    {
-        "Effect": "Allow",
-        "Action": [
-            "ec2messages:AcknowledgeMessage",
-            "ec2messages:DeleteMessage",
-            "ec2messages:FailMessage",
-            "ec2messages:GetEndpoint",
-            "ec2messages:GetMessages",
-            "ec2messages:SendReply"
+        Resource = "arn:aws:ec2:ap-northeast-2:${var.ACCOUNT_ID}:network-interface/*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "ssm:ResumeSession",
+          "ssm:DescribeSessions",
+          "ssm:TerminateSession",
+          "ssm:StartSession",
+          "ssm:UpdateInstanceInformation",
+          "ssmmessages:CreateControlChannel",
+          "ssmmessages:CreateDataChannel",
+          "ssmmessages:OpenControlChannel",
+          "ssmmessages:OpenDataChannel"
         ],
-        "Resource": "*"
-    },
-    {
-        "Action": [
+        Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "s3:GetEncryptionConfiguration"
+        ],
+        Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "ec2messages:AcknowledgeMessage",
+          "ec2messages:DeleteMessage",
+          "ec2messages:FailMessage",
+          "ec2messages:GetEndpoint",
+          "ec2messages:GetMessages",
+          "ec2messages:SendReply"
+        ],
+        Resource = "*"
+      },
+      {
+        Action = [
           "s3:GetObject"
         ],
-        "Effect": "Allow",
-        "Resource": [
-        "arn:aws:s3:::amazonlinux.region.amazonaws.com/*",
-        "arn:aws:s3:::amazonlinux-2-repos-region/*"
+        Effect = "Allow",
+        Resource = [
+          "arn:aws:s3:::amazonlinux.region.amazonaws.com/*",
+          "arn:aws:s3:::amazonlinux-2-repos-region/*"
         ]
-    }
-  ]
-}
-EOF
+      }
+    ]
+  })
 }
 
 
@@ -226,6 +222,28 @@ resource "aws_iam_role" "ecs-service-role" {
 EOF
 
 }
+resource "aws_iam_role_policy" "cloudmap_discovery" {
+  name   = "ecs-cloudmap-discovery"
+  role   = aws_iam_role.ecs-ec2-role.id
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "servicediscovery:DiscoverInstances",
+        "servicediscovery:GetInstancesHealthStatus",
+        "servicediscovery:ListInstances"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+
 
 resource "aws_iam_policy_attachment" "ecs-service-attach" {
   name       = "ecs-service-attach"

@@ -27,7 +27,7 @@ resource "aws_ecs_service" "notification-server" {
   deployment_minimum_healthy_percent = 50
 
   load_balancer {
-    target_group_arn = module.notification-server.aws_lb_target_group_arn
+    target_group_arn = data.terraform_remote_state.alb.outputs.notification_server_lb_tg.arn
     container_name   = "notification-server"
     container_port   = var.SERVICE_PORT
     # health_check = {

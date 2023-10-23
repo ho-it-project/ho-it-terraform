@@ -123,6 +123,8 @@ EOF
 }
 
 
+
+
 resource "aws_iam_instance_profile" "instance_profile" {
   name = "${var.service_name}-profile"
   role = aws_iam_role.ec2.name

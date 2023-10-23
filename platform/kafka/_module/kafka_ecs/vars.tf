@@ -4,7 +4,7 @@ variable "service_name" {
 }
 
 variable "broker_count" {
-  default = 3
+  default = 1
 }
 
 variable "domain_name" {
@@ -158,3 +158,4 @@ variable "instance_count_min" {
   description = "The minimum number of agents that are to be active"
   default     = 1
 }
+

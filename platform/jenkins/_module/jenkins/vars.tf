@@ -1,3 +1,9 @@
+variable "lb_tg_arn" {
+
+}
+variable "ec2_sg" {
+
+}
 variable "account_id" {
   description = "The AWS account number"
 }

@@ -1,7 +1,7 @@
 # app
 locals {
   kafka_hosts = [
-    for i in range(0, var.broker_count) : "kafka${i + 1}.ho-it.me"
+    for i in range(0, var.broker_count) : "broker${i + 1}.ho-it.kafka"
   ]
 }
 locals {
@@ -9,16 +9,16 @@ locals {
 }
 
 resource "aws_ecs_task_definition" "task-definition" {
-  count  = var.broker_count
-  family = "kafka${count.index + 1}"
-
+  count        = var.broker_count
+  family       = "kafka${count.index + 1}"
+  network_mode = "awsvpc"
   placement_constraints {
     type       = "memberOf"
     expression = "attribute:type == kafka${count.index + 1}"
   }
 
   container_definitions = templatefile("${path.module}/templates/app.json.tpl", {
-    KAFKA_HOST_NAME                                = element(local.kafka_hosts, count.index)
+    KAFKA_HOST_NAME                                = local.kafka_hosts[count.index]
     REPOSITORY_URL                                 = var.repository_url
     KAFKA_NUM                                      = count.index + 1
     KAFKA_CONTROLLER_QUORUM_VOTERS                 = local.KAFKA_CONTROLLER_QUORUM_VOTERS
@@ -36,33 +36,52 @@ resource "aws_ecs_service" "kafka" {
   deployment_maximum_percent         = 200
   deployment_minimum_healthy_percent = 50
 
-
-
-  load_balancer {
-    target_group_arn = element(aws_lb_target_group.external_29092.*.arn, count.index)
-    container_port   = 29092
-    container_name   = "kafka${count.index + 1}"
+  network_configuration {
+    subnets         = concat(var.private_subnets)
+    security_groups = [aws_security_group.ec2.id, aws_security_group.kafka.id]
   }
 
-  load_balancer {
-    target_group_arn = element(aws_lb_target_group.external_9092.*.arn, count.index)
-    container_port   = 9092
-    container_name   = "kafka${count.index + 1}"
+  service_registries {
+    registry_arn = element(aws_service_discovery_service.kafka.*.arn, count.index)
+
   }
 
-  load_balancer {
-    target_group_arn = element(aws_lb_target_group.external_29093.*.arn, count.index)
-    container_port   = 29093
-    container_name   = "kafka${count.index + 1}"
-  }
+
 
   lifecycle {
     ignore_changes = [
       task_definition,
-      load_balancer
     ]
   }
+
   tags = {
     "Kafka" = count.index + 1
   }
 }
+
+resource "aws_service_discovery_private_dns_namespace" "kafka" {
+  name = "ho-it.kafka"
+  vpc  = var.target_vpc
+}
+
+resource "aws_service_discovery_service" "kafka" {
+  count = var.broker_count
+
+  name = "broker${count.index + 1}"
+
+  dns_config {
+
+    namespace_id   = aws_service_discovery_private_dns_namespace.kafka.id
+    routing_policy = "WEIGHTED"
+    dns_records {
+      ttl  = 10
+      type = "A"
+
+    }
+
+  }
+  health_check_custom_config {
+    failure_threshold = 1
+  }
+}
+

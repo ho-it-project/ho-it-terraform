@@ -20,9 +20,10 @@ resource "aws_ecs_service" "api-server" {
   deployment_minimum_healthy_percent = 50
 
   load_balancer {
-    target_group_arn = module.api-server.aws_lb_target_group_arn
-    container_name   = "api-server"
-    container_port   = var.SERVICE_PORT
+    target_group_arn = data.terraform_remote_state.alb.outputs.api_server_lb_tg.arn
+
+    container_name = "api-server"
+    container_port = var.SERVICE_PORT
 
   }
 

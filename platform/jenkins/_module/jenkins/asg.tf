@@ -5,7 +5,7 @@ resource "aws_launch_configuration" "launch_configuration" {
   instance_type = var.instance_size
 
   security_groups = [
-    aws_security_group.ec2.id
+    var.ec2_sg
   ]
 
   associate_public_ip_address = true
@@ -41,7 +41,7 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   force_delete         = true
   launch_configuration = aws_launch_configuration.launch_configuration.name
 
-  target_group_arns = [aws_lb_target_group.external.arn]
+  target_group_arns = [var.lb_tg_arn]
 
   lifecycle {
     ignore_changes = [desired_capacity]
@@ -65,7 +65,26 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   }
 }
 
-resource "aws_autoscaling_attachment" "web" {
-  autoscaling_group_name = aws_autoscaling_group.autoscaling_group.id
-  lb_target_group_arn    = aws_lb_target_group.external.arn
+
+
+
+
+resource "aws_autoscaling_schedule" "scale_down" {
+  scheduled_action_name  = "scale_down"
+  min_size               = 0
+  max_size               = 0
+  desired_capacity       = 0
+  recurrence             = "0 3 * * *"
+  time_zone              = "Asia/Seoul"
+  autoscaling_group_name = aws_autoscaling_group.autoscaling_group.name
 }
+resource "aws_autoscaling_schedule" "scale_up" {
+  scheduled_action_name  = "scale_up"
+  min_size               = 1
+  max_size               = 1
+  desired_capacity       = 1
+  recurrence             = "0 21 * * *"
+  time_zone              = "Asia/Seoul"
+  autoscaling_group_name = aws_autoscaling_group.autoscaling_group.name
+}
+

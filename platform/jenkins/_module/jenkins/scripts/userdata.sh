@@ -28,9 +28,16 @@ sudo mkdir -p $JENKINS_HOME
 # Replace ${efs_dns_name} with your actual EFS DNS name
 sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport ${efs_dns_name}:/ $JENKINS_HOME
 
-wget https://pkg.jenkins.io/debian-stable/binary/jenkins_2.414.2_all.deb
-sudo dpkg -i jenkins_2.414.2_all.deb
+# wget https://pkg.jenkins.io/debian-stable/binary/jenkins_2.414.2_all.deb
+# sudo dpkg -i jenkins_2.414.2_all.deb
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+    https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+    https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+    /etc/apt/sources.list.d/jenkins.list > /dev/null
 
+sudo apt-get update
+sudo apt-get install jenkins
 sudo sed -i 's/Djava.awt.headless=true/Djava.awt.headless=true -Xmx2G -Xms2G -Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia\/Seoul/g' /etc/default/jenkins
 
 
