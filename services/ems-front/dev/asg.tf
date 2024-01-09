@@ -6,7 +6,7 @@ resource "aws_launch_configuration" "ecs-launch-configuration" {
   name_prefix     = "ems-front-"
   image_id        = var.AWS_ECS_AMI
   instance_type   = var.EC2_TYPE["t3micro"]
-  security_groups = [module.ems-front.aws_security_group_ec2_id]
+  security_groups = [data.terraform_remote_state.alb.outputs.ec2_sg.id]
 
   associate_public_ip_address = true
   key_name                    = var.SSH_KEY_NAME
@@ -31,9 +31,9 @@ resource "aws_autoscaling_group" "ecs-autoscaling_group" {
   launch_configuration = aws_launch_configuration.ecs-launch-configuration.name
 
   force_delete      = true
-  target_group_arns = [module.ems-front.aws_lb_target_group_arn]
+  target_group_arns = [data.terraform_remote_state.alb.outputs.ems_front_tg.arn]
 
-  health_check_type         = "ELB"
+  health_check_type         = "EC2"
   health_check_grace_period = 300
 
   tag {

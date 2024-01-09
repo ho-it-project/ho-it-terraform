@@ -46,23 +46,23 @@ resource "aws_autoscaling_group" "ecs-autoscaling_group" {
 }
 
 
-resource "aws_autoscaling_schedule" "scale_down" {
-  scheduled_action_name  = "scale_down"
-  min_size               = 0
-  max_size               = 0
-  desired_capacity       = 0
-  recurrence             = "0 0 * * *"
-  time_zone              = "Asia/Seoul"
-  autoscaling_group_name = aws_autoscaling_group.ecs-autoscaling_group.name
-}
-resource "aws_autoscaling_schedule" "scale_up" {
-  scheduled_action_name  = "scale_up"
-  min_size               = 1
-  max_size               = 1
-  desired_capacity       = 1
-  recurrence             = "10 15 * * *"
-  time_zone              = "Asia/Seoul"
-  autoscaling_group_name = aws_autoscaling_group.ecs-autoscaling_group.name
-}
+# resource "aws_autoscaling_schedule" "scale_down" {
+#   scheduled_action_name  = "scale_down"
+#   min_size               = 0
+#   max_size               = 0
+#   desired_capacity       = 0
+#   recurrence             = "0 0 * * *"
+#   time_zone              = "Asia/Seoul"
+#   autoscaling_group_name = aws_autoscaling_group.ecs-autoscaling_group.name
+# }
+# resource "aws_autoscaling_schedule" "scale_up" {
+#   scheduled_action_name  = "scale_up"
+#   min_size               = 1
+#   max_size               = 1
+#   desired_capacity       = 1
+#   recurrence             = "10 15 * * *"
+#   time_zone              = "Asia/Seoul"
+#   autoscaling_group_name = aws_autoscaling_group.ecs-autoscaling_group.name
+# }
 
 

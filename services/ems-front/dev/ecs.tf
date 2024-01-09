@@ -20,7 +20,7 @@ resource "aws_ecs_service" "ems-front" {
   deployment_minimum_healthy_percent = 50
 
   load_balancer {
-    target_group_arn = module.ems-front.aws_lb_target_group_arn
+    target_group_arn = data.terraform_remote_state.alb.outputs.ems_front_tg.arn
     container_name   = "ems-front"
     container_port   = var.SERVICE_PORT
   }

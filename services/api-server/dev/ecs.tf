@@ -9,7 +9,7 @@ resource "aws_ecs_task_definition" "api-server-task-definition" {
 
 resource "aws_ecs_service" "api-server" {
   count           = var.MYAPP_SERVICE_ENABLE
-  name            = "api-serverr"
+  name            = "api-server"
   cluster         = aws_ecs_cluster.api-server-cluster.id
   task_definition = aws_ecs_task_definition.api-server-task-definition.arn
   desired_count   = 1

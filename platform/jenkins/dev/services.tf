@@ -16,8 +16,8 @@ module "jenkins" {
   route53_internal_domain  = data.terraform_remote_state.vpc.outputs.route53_internal_domain
   route53_internal_zone_id = data.terraform_remote_state.vpc.outputs.route53_internal_zone_id
   billing_tag              = data.terraform_remote_state.vpc.outputs.billing_tag
-
-  newrelic_monitor = "false"
+  instance_size            = "t3.medium"
+  newrelic_monitor         = "false"
 
   ssh_key_name = var.SSH_KEY_NAME
 

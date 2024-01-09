@@ -74,7 +74,7 @@ resource "aws_autoscaling_schedule" "scale_down" {
   min_size               = 0
   max_size               = 0
   desired_capacity       = 0
-  recurrence             = "0 3 * * *"
+  recurrence             = "0 0 * * *"
   time_zone              = "Asia/Seoul"
   autoscaling_group_name = aws_autoscaling_group.autoscaling_group.name
 }

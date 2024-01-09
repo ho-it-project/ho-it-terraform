@@ -8,7 +8,6 @@ resource "aws_iam_group_membership" "devops_black" {
 
   users = [
     aws_iam_user.denovo.name,
-    aws_iam_user.anthony.name
   ]
 
   group = aws_iam_group.devops_black.name
@@ -27,7 +26,7 @@ variable "assume_policy_devops_black" {
   type        = list(string)
 
   default = [
-    # Please change <account_id> to the real account id number of id account 
+    "arn:aws:iam::aws:policy/AdministratorAccess",
   ]
 }
 ############### DevOps Basic Policy ##################
